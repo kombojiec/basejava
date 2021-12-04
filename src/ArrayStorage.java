@@ -43,8 +43,7 @@ public class ArrayStorage {
         if (position >= 0) {
             System.arraycopy(storage, position + 1, storage, position, storage.length - 1 - position);
             --size;
-        }
-        if (position < 0) {
+        } else {
             System.out.printf("There is no resume with uuid = %s\n", uuid);
         }
     }
@@ -53,7 +52,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
