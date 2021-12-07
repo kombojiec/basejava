@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10000];
     private int size = 0;
 
     public int getSize() {
@@ -21,24 +21,24 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int position = getResumePosition(resume);
-        if(position >= 0) {
-            storage[position] = resume;
+        int index = getResumePosition(resume);
+        if(index >= 0) {
+            storage[index] = resume;
             return;
         }
-        System.out.println("There is no match resume in database");
+        System.out.printf("There is no match resume in database with uuid = %s\n", resume.getUuid());
     }
 
     public void save(Resume resume) {
         if (size < storage.length) {
-            int position = getResumePosition(resume);
-            if(position < 0) {
+            int index = getResumePosition(resume);
+            if(index < 0) {
                 storage[size++] = resume;
             } else {
-                System.out.println("There is same resume already in database");
+                System.out.printf("There is same resume already in database with uuid = %s\n", resume.getUuid());
             }
         } else {
-            System.out.println("No empty space in database for new resume");
+            System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
         }
     }
 
