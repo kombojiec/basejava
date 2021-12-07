@@ -1,9 +1,12 @@
+import com.resume.app.model.Resume;
+import com.resume.app.storage.ArrayStorage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for ArrayStorage implementation
+ * Interactive test for com.resume.app.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
@@ -28,11 +31,11 @@ public class MainArray {
                     printAll();
                     break;
                 case "size":
-                    System.out.println(ARRAY_STORAGE.size());
+                    System.out.println(ARRAY_STORAGE.getSize());
                     break;
                 case "save":
                     resume = new Resume();
-                    resume.uuid = uuid;
+                    resume.setUuid(uuid);
                     ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
