@@ -43,16 +43,17 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        Resume resume = getResumeById(uuid);
-        if(resume != null) {
-            return resume;
+        for (int i = 0; i < size; i++) {
+            if(storage[i].getUuid().equals(uuid)) {
+                return storage[i];
+            }
         }
         System.out.printf("There is no resume with uuid = %s in database\n", uuid);
         return null;
     }
 
     public void delete(String uuid) {
-        Resume resume = getResumeById(uuid);
+        Resume resume = get(uuid);
         if(resume != null) {
             resume = storage[--size];
             storage[size] = null;
@@ -72,14 +73,5 @@ public class ArrayStorage {
             }
         }
         return -1;
-    }
-
-    private Resume getResumeById(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if(storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
-        }
-        return null;
     }
 }
