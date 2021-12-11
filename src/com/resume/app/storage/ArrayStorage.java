@@ -7,18 +7,6 @@ import com.resume.app.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage{
 
-    public void save(Resume resume) {
-        if(getResumePosition(resume) >= 0) {
-            System.out.printf("There is same resume already in database with uuid = %s\n", resume.getUuid());
-            return;
-        }
-        if (size < STORAGE_SIZE) {
-            storage[size++] = resume;
-        } else {
-            System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
-        }
-    }
-
     public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
             if(storage[i].getUuid().equals(uuid)) {
@@ -36,5 +24,10 @@ public class ArrayStorage extends AbstractArrayStorage{
             }
         }
         return -1;
+    }
+
+    @Override
+    protected void insertElement(int index, Resume resume) {
+        storage[size++] = resume;
     }
 }

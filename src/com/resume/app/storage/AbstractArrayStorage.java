@@ -36,7 +36,22 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     @Override
-    public abstract void save(Resume resume);
+    public void save(Resume resume) {
+        int index = getResumePosition(resume);
+        if(index >= 0) {
+            System.out.printf("There is same resume already in database with uuid = %s\n", resume.getUuid());
+            return;
+        }
+        if(size < STORAGE_SIZE) {
+            index = Math.abs(++index);
+            insertElement(index, resume);
+//            System.arraycopy(storage, index, storage, index+1, storage.length - 1 - index);
+//            storage[index] = resume;
+//            ++size;
+        } else {
+            System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
+        }
+    }
 
     @Override
     public abstract Resume get(String uuid);
@@ -58,4 +73,6 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     protected abstract int getResumePosition(Resume resume);
+
+    protected abstract void insertElement(int index, Resume resume);
 }
