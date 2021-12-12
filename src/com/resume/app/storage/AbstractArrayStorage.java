@@ -27,7 +27,7 @@ public abstract class AbstractArrayStorage implements Storage{
 
     @Override
     public void update(Resume resume) {
-        int index = getResumePosition(resume);
+        int index = getResumePosition(resume.getUuid());
         if(index >= 0) {
             storage[index] = resume;
             return;
@@ -37,7 +37,7 @@ public abstract class AbstractArrayStorage implements Storage{
 
     @Override
     public void save(Resume resume) {
-        int index = getResumePosition(resume);
+        int index = getResumePosition(resume.getUuid());
         if(index >= 0) {
             System.out.printf("There is same resume already in database with uuid = %s\n", resume.getUuid());
             return;
@@ -45,20 +45,24 @@ public abstract class AbstractArrayStorage implements Storage{
         if(size < STORAGE_SIZE) {
             index = Math.abs(++index);
             insertElement(index, resume);
-//            System.arraycopy(storage, index, storage, index+1, storage.length - 1 - index);
-//            storage[index] = resume;
-//            ++size;
         } else {
             System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
         }
     }
 
     @Override
-    public abstract Resume get(String uuid);
+    public Resume get(String uuid) {
+        int index = getResumePosition(uuid);
+        if(index >= 0) {
+            return storage[index];
+        }
+        System.out.printf("There is no resume with uuid = %s in database\n", uuid);
+        return null;
+    }
 
     @Override
     public void delete(String uuid) {
-        int index = getResumePosition(get(uuid));
+        int index = getResumePosition(uuid);
         if(index != -1) {
             System.arraycopy(storage, index + 1, storage, index, storage.length - 1 - index);
             --size;
@@ -72,7 +76,7 @@ public abstract class AbstractArrayStorage implements Storage{
         return Arrays.copyOf(storage, size);
     }
 
-    protected abstract int getResumePosition(Resume resume);
-
     protected abstract void insertElement(int index, Resume resume);
+
+    protected abstract int getResumePosition(String uuid);
 }

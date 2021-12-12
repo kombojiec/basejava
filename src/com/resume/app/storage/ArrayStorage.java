@@ -7,27 +7,19 @@ import com.resume.app.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage{
 
-    public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if(storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
-        }
-        System.out.printf("There is no resume with uuid = %s in database\n", uuid);
-        return null;
+    @Override
+    protected void insertElement(int index, Resume resume) {
+        storage[size++] = resume;
     }
 
-    protected int getResumePosition(Resume resume) {
+    @Override
+    protected int getResumePosition(String uuid) {
         for (int i = 0; i < size; i++) {
-            if(storage[i].equals(resume)) {
+            if(storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
         return -1;
     }
 
-    @Override
-    protected void insertElement(int index, Resume resume) {
-        storage[size++] = resume;
-    }
 }
