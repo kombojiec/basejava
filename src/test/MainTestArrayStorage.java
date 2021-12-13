@@ -1,15 +1,15 @@
 package test;
 
 import com.resume.app.model.Resume;
-import com.resume.app.storage.ArrayStorage;
+import com.resume.app.storage.SortedArrayStorage;
 import com.resume.app.storage.Storage;
 
 /**
  * Test for your com.resume.app.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-//    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
-    static final Storage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+//    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();

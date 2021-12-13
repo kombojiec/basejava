@@ -5,14 +5,9 @@ import com.resume.app.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage{
-    protected final int STORAGE_SIZE = 10000;
-    protected Resume[] storage;
+    protected final static int STORAGE_SIZE = 10000;
+    protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
-
-    {
-        storage = new Resume[STORAGE_SIZE];
-        size = 0;
-    }
 
     @Override
     public int getSize() {
@@ -43,8 +38,8 @@ public abstract class AbstractArrayStorage implements Storage{
             return;
         }
         if(size < STORAGE_SIZE) {
-            index = Math.abs(++index);
             insertElement(index, resume);
+            ++size;
         } else {
             System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
         }
@@ -63,8 +58,8 @@ public abstract class AbstractArrayStorage implements Storage{
     @Override
     public void delete(String uuid) {
         int index = getResumePosition(uuid);
-        if(index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, storage.length - 1 - index);
+        if(index >= 0) {
+            System.arraycopy(storage, index + 1, storage, index, size - index);
             --size;
         } else {
             System.out.printf("There is no match resume in database with uuid = %s\n", uuid);
