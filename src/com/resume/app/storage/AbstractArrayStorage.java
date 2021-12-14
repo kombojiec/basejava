@@ -59,7 +59,7 @@ public abstract class AbstractArrayStorage implements Storage{
     public void delete(String uuid) {
         int index = getResumePosition(uuid);
         if(index >= 0) {
-            System.arraycopy(storage, index + 1, storage, index, size - index);
+            System.arraycopy(storage, index + 1, storage, index, size - index -1);
             --size;
         } else {
             System.out.printf("There is no match resume in database with uuid = %s\n", uuid);
