@@ -1,11 +1,14 @@
 package com.resume.app.storage;
 
+import com.resume.app.exception.ExistStorageException;
+import com.resume.app.exception.NotExistStorageException;
+import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage{
-    protected final static int STORAGE_SIZE = 10000;
+    protected final static int STORAGE_SIZE = 100;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
 
@@ -27,21 +30,20 @@ public abstract class AbstractArrayStorage implements Storage{
             storage[index] = resume;
             return;
         }
-        System.out.printf("There is no match resume in database with uuid = %s\n", resume.getUuid());
+        throw new NotExistStorageException(resume.getUuid());
     }
 
     @Override
     public void save(Resume resume) {
         int index = getResumePosition(resume.getUuid());
         if(index >= 0) {
-            System.out.printf("There is same resume already in database with uuid = %s\n", resume.getUuid());
-            return;
+            throw new ExistStorageException(resume.getUuid());
         }
         if(size < STORAGE_SIZE) {
             insertElement(index, resume);
             ++size;
         } else {
-            System.out.printf("No empty space in database for new resume with uuid = %s\n", resume.getUuid());
+            throw new StorageException(String.format("No empty space in database for new resume with uuid = %s\n", resume.getUuid()), resume.getUuid());
         }
     }
 
@@ -51,8 +53,7 @@ public abstract class AbstractArrayStorage implements Storage{
         if(index >= 0) {
             return storage[index];
         }
-        System.out.printf("There is no resume with uuid = %s in database\n", uuid);
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     @Override
@@ -62,7 +63,7 @@ public abstract class AbstractArrayStorage implements Storage{
             System.arraycopy(storage, index + 1, storage, index, size - index -1);
             --size;
         } else {
-            System.out.printf("There is no match resume in database with uuid = %s\n", uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 

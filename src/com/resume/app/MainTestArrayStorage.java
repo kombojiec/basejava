@@ -1,27 +1,22 @@
-package test;
+package com.resume.app;
 
 import com.resume.app.model.Resume;
-import com.resume.app.storage.SortedArrayStorage;
+import com.resume.app.storage.ArrayStorage;
 import com.resume.app.storage.Storage;
 
 /**
  * Test for your com.resume.app.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
-//    static final Storage ARRAY_STORAGE = new ArrayStorage();
+//    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume();
-        r1.setUuid("uuid3");
-        Resume r2 = new Resume();
-        r2.setUuid("uuid4");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid1");
-        Resume r4 = new Resume();
-        r4.setUuid("uuid2");
-        Resume r5 = new Resume();
-        r5.setUuid("uuid1");
+        Resume r1 = new Resume("uuid3");
+        Resume r2 = new Resume("uuid4");
+        Resume r3 = new Resume("uuid1");
+        Resume r4 = new Resume("uuid2");
+        Resume r5 = new Resume("uuid1");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);

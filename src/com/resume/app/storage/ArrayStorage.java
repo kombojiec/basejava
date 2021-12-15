@@ -2,9 +2,6 @@ package com.resume.app.storage;
 
 import com.resume.app.model.Resume;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage extends AbstractArrayStorage{
 
     @Override
