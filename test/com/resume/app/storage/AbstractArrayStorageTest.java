@@ -7,7 +7,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 abstract class AbstractArrayStorageTest {
-    Storage storage;
+    private Storage storage;
 
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -23,7 +23,7 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void getSize() {
-        Assertions.assertEquals(3, storage.getSize());
+        assertEquals(3, storage.getSize());
     }
 
     @Test
@@ -36,12 +36,13 @@ abstract class AbstractArrayStorageTest {
     void update() {
         Resume resume = new Resume("uuid#1");
         storage.update(resume);
+        assertTrue(resume.equals(storage.get(resume.getUuid())));
     }
 
     @Test
     void updateShouldThrowException() {
+        Resume resume = new Resume("uuid#4");
         assertThrows(NotExistStorageException.class, () -> {
-            Resume resume = new Resume("uuid#4");
             storage.update(resume);
         });
     }
@@ -50,12 +51,14 @@ abstract class AbstractArrayStorageTest {
     void save() {
         Resume resume = new Resume("uuid#4");
         storage.save(resume);
+        assertNotNull(storage.get(resume.getUuid()));
+        assertEquals(4, storage.getSize());
     }
 
     @Test
     void saveShouldThrowExistException() {
+        Resume resume = new Resume("uuid#1");
         assertThrows(ExistStorageException.class, () -> {
-            Resume resume = new Resume("uuid#1");
             storage.save(resume);
         });
     }
@@ -68,6 +71,7 @@ abstract class AbstractArrayStorageTest {
                 storage.save(resume);
             }
         });
+        assertEquals(100, storage.getSize());
     }
 
     @Test
@@ -83,7 +87,7 @@ abstract class AbstractArrayStorageTest {
     @Test
     void get() {
         Resume resume = storage.get("uuid#1");
-        Assertions.assertNotNull(resume);
+        assertNotNull(resume);
     }
 
     @Test
@@ -95,7 +99,12 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void delete() {
-        storage.delete("uuid#1");
+        String uuid = "uuid#1";
+        storage.delete(uuid);
+        assertThrows(NotExistStorageException.class, () -> {
+            storage.get(uuid);
+        });
+        assertEquals(2, storage.getSize());
     }
 
     @Test
