@@ -8,13 +8,18 @@ import com.resume.app.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage{
-    protected final static int STORAGE_SIZE = 100;
+    private final static int STORAGE_SIZE = 100;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
 
     @Override
     public int getSize() {
         return size;
+    }
+
+    @Override
+    public int getStorageSize() {
+        return STORAGE_SIZE;
     }
 
     @Override
