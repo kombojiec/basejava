@@ -1,14 +1,13 @@
 package com.resume.app.storage;
 
-import com.resume.app.exception.ExistStorageException;
 import com.resume.app.exception.NotExistStorageException;
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage{
-    private final static int STORAGE_SIZE = 100;
+public abstract class AbstractArrayStorage extends AbstractStorage{
+    protected final static int STORAGE_SIZE = 100;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
 
@@ -18,38 +17,9 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     @Override
-    public int getStorageSize() {
-        return STORAGE_SIZE;
-    }
-
-    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-    }
-
-    @Override
-    public void update(Resume resume) {
-        int index = getResumePosition(resume.getUuid());
-        if(index >= 0) {
-            storage[index] = resume;
-            return;
-        }
-        throw new NotExistStorageException(resume.getUuid());
-    }
-
-    @Override
-    public void save(Resume resume) {
-        int index = getResumePosition(resume.getUuid());
-        if(index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        }
-        if(size < STORAGE_SIZE) {
-            insertElement(index, resume);
-            ++size;
-        } else {
-            throw new StorageException(String.format("No empty space in database for new resume with uuid = %s\n", resume.getUuid()), resume.getUuid());
-        }
     }
 
     @Override
@@ -62,19 +32,39 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getResumePosition(uuid);
-        if(index >= 0) {
-            System.arraycopy(storage, index + 1, storage, index, size - index -1);
-            --size;
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    @Override
+    protected Object getObjectKey(String uuid) {
+        return getResumePosition(uuid);
+    }
+
+    @Override
+    protected boolean isObjectExist(Object key) {
+        return (int)key >= 0;
+    }
+
+    @Override
+    protected void updateObject(Resume resume, Object key) {
+        storage[(int)key] = resume;
+    }
+
+    @Override
+    protected void saveObject(Resume resume, Object key) {
+        if(size < STORAGE_SIZE) {
+            insertElement((int)key, resume);
+            ++size;
         } else {
-            throw new NotExistStorageException(uuid);
+            throw new StorageException(String.format("No empty space in database for new resume with uuid = %s\n", resume.getUuid()), resume.getUuid());
         }
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    protected void deleteObject(Object key) {
+        System.arraycopy(storage, (int)key + 1, storage, (int)key, size - (int)key -1);
+            --size;
     }
 
     protected abstract void insertElement(int index, Resume resume);

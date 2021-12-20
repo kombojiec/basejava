@@ -4,7 +4,6 @@ import com.resume.app.model.Resume;
 
 public interface Storage {
     int getSize();
-    int getStorageSize();
     void clear();
     void update(Resume resume);
     void save(Resume resume);
