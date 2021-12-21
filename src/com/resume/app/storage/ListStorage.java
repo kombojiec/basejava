@@ -1,14 +1,12 @@
 package com.resume.app.storage;
 
-import com.resume.app.exception.NotExistStorageException;
 import com.resume.app.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class ListStorage extends AbstractStorage{
-    List<Resume> storage = new ArrayList<>();
+public class ListStorage extends AbstractStorage {
+    private List<Resume> storage = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -21,20 +19,8 @@ public class ListStorage extends AbstractStorage{
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = (int)getObjectKey(uuid);
-        if(index >= 0) {
-            return storage.get(index);
-        }
-        throw new NotExistStorageException(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        if(!storage.removeIf(el -> el.getUuid().equals(uuid))) {
-            throw new NotExistStorageException(uuid);
-        }
-
+    protected Resume getResume(Object index) {
+        return storage.get((int) index);
     }
 
     @Override
@@ -43,32 +29,33 @@ public class ListStorage extends AbstractStorage{
     }
 
     @Override
-    protected Object getObjectKey(String str) {
-        Optional resume = storage.stream().filter(el -> el.getUuid().equals(str)).findFirst();
-        if(resume.isPresent()) {
-            return storage.indexOf(resume.get());
+    protected Object getResumeKey(String str) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(str)) {
+                return i;
+            }
         }
         return -1;
     }
 
     @Override
-    protected boolean isObjectExist(Object key) {
-        return (int)key >= 0;
+    protected boolean isResumeExist(Object key) {
+        return (int) key >= 0;
     }
 
     @Override
-    protected void updateObject(Resume resume, Object key) {
-        storage.add((int)key, resume);
+    protected void updateResume(Resume resume, Object key) {
+        storage.add((int) key, resume);
     }
 
     @Override
-    protected void saveObject(Resume resume, Object key) {
+    protected void saveResume(Resume resume, Object key) {
         storage.add(resume);
     }
 
     @Override
-    protected void deleteObject(Object key) {
-        storage.remove((int)key);
+    protected void deleteResume(Object key) {
+        storage.remove((int) key);
     }
 
 }

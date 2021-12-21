@@ -2,7 +2,7 @@ package com.resume.app.storage;
 
 import com.resume.app.model.Resume;
 
-public class ArrayStorage extends AbstractArrayStorage{
+public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertElement(int index, Resume resume) {
@@ -12,7 +12,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     @Override
     protected int getResumePosition(String uuid) {
         for (int i = 0; i < size; i++) {
-            if(storage[i].getUuid().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }

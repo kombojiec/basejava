@@ -1,12 +1,11 @@
 package com.resume.app.storage;
 
-import com.resume.app.exception.NotExistStorageException;
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage extends AbstractStorage{
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final static int STORAGE_SIZE = 100;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
@@ -23,12 +22,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = getResumePosition(uuid);
-        if(index >= 0) {
-            return storage[index];
-        }
-        throw new NotExistStorageException(uuid);
+    protected Resume getResume(Object index) {
+        return storage[(int) index];
     }
 
     @Override
@@ -37,34 +32,37 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    protected Object getObjectKey(String uuid) {
+    protected Object getResumeKey(String uuid) {
         return getResumePosition(uuid);
     }
 
     @Override
-    protected boolean isObjectExist(Object key) {
-        return (int)key >= 0;
+    protected boolean isResumeExist(Object index) {
+        return (int) index >= 0;
     }
 
     @Override
-    protected void updateObject(Resume resume, Object key) {
-        storage[(int)key] = resume;
+    protected void updateResume(Resume resume, Object index) {
+        storage[(int) index] = resume;
     }
 
     @Override
-    protected void saveObject(Resume resume, Object key) {
-        if(size < STORAGE_SIZE) {
-            insertElement((int)key, resume);
+    protected void saveResume(Resume resume, Object index) {
+        if (size < STORAGE_SIZE) {
+            insertElement((int) index, resume);
             ++size;
         } else {
-            throw new StorageException(String.format("No empty space in database for new resume with uuid = %s\n", resume.getUuid()), resume.getUuid());
+            String message = String.format(
+                    "No empty space in database for new resume with uuid = %s\n", resume.getUuid());
+            throw new StorageException(message, resume.getUuid());
         }
     }
 
     @Override
-    protected void deleteObject(Object key) {
-        System.arraycopy(storage, (int)key + 1, storage, (int)key, size - (int)key -1);
-            --size;
+    protected void deleteResume(Object index) {
+        int position = (int) index;
+        System.arraycopy(storage, position + 1, storage, position, size - position - 1);
+        --size;
     }
 
     protected abstract void insertElement(int index, Resume resume);
