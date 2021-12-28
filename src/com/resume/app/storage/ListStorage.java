@@ -1,9 +1,11 @@
 package com.resume.app.storage;
 
+import com.resume.app.comparator.ResumeComparator;
 import com.resume.app.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
@@ -24,8 +26,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(Resume[]::new);
+    public List<Resume> getAllSorted() {
+        return storage.stream()
+                .sorted(new ResumeComparator())
+                .collect(Collectors.toList());
     }
 
     @Override

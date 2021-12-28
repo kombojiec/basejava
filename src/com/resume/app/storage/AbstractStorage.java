@@ -38,7 +38,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private void resumeNotExist(Object key, String uuid) {
-        if(!isResumeExist(key)) {
+        if (!isResumeExist(key)) {
             throw new NotExistStorageException(uuid);
         }
     }

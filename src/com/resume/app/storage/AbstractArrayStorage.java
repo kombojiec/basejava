@@ -1,9 +1,12 @@
 package com.resume.app.storage;
 
+import com.resume.app.comparator.ResumeComparator;
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final static int STORAGE_SIZE = 100;
@@ -27,8 +30,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public List<Resume> getAllSorted() {
+        return Arrays.stream(Arrays.copyOf(storage, size))
+                .sorted(new ResumeComparator())
+                .collect(Collectors.toList());
     }
 
     @Override
