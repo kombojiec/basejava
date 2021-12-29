@@ -3,6 +3,7 @@ package com.resume.app.storage;
 import com.resume.app.model.Resume;
 
 public class MapStorageResumeKey extends AbstractMapStorage {
+
     @Override
     protected Resume getResume(Object resume) {
         return (Resume) resume;

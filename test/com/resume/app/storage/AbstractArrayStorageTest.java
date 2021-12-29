@@ -1,8 +1,15 @@
 package com.resume.app.storage;
 
-import com.resume.app.exception.*;
+import com.resume.app.exception.ExistStorageException;
+import com.resume.app.exception.NotExistStorageException;
+import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,9 +103,12 @@ abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    void getAll() {
-        Resume[] resumeStorage = new Resume[]{resume_1, resume_2, resume_3};
+    void getAllSorted() {
+        List<Resume> resumeStorage = Arrays.asList(resume_2, resume_3, resume_1);
+        resumeStorage.sort(Comparator.<Resume>naturalOrder().thenComparing(Resume::getUuid));
         assertEquals(3, storage.getAllSorted().size());
-        assertArrayEquals(resumeStorage, storage.getAllSorted().toArray());
+        assertEquals(resumeStorage.get(0), storage.getAllSorted().get(0));
+        assertEquals(resumeStorage.get(1), storage.getAllSorted().get(1));
+        assertEquals(resumeStorage.get(2), storage.getAllSorted().get(2));
     }
 }

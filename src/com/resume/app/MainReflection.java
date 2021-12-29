@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 public class MainReflection {
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Resume resume = new Resume();
+        Resume resume = new Resume("TestResume");
         Field uuid = resume.getClass().getDeclaredField("uuid");
         uuid.setAccessible(true);
         System.out.println(uuid.getName());

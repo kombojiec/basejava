@@ -1,11 +1,9 @@
 package com.resume.app.storage;
 
-import com.resume.app.comparator.ResumeComparator;
 import com.resume.app.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
@@ -26,13 +24,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage.stream()
-                .sorted(new ResumeComparator())
-                .collect(Collectors.toList());
-    }
-
-    @Override
     protected Object getResumeKey(String str) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(str)) {
@@ -40,6 +31,11 @@ public class ListStorage extends AbstractStorage {
             }
         }
         return -1;
+    }
+
+    @Override
+    protected List<Resume> getAllResume() {
+        return storage;
     }
 
     @Override
