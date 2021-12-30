@@ -7,12 +7,13 @@ import com.resume.app.model.Resume;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        updateResume(resume, resumeNotExist(resume.getUuid()));
+        updateResume(resume, getKeyOrResumeNotExistException(resume.getUuid()));
     }
 
     @Override
@@ -26,15 +27,15 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        deleteResume(resumeNotExist(uuid));
+        deleteResume(getKeyOrResumeNotExistException(uuid));
     }
 
     @Override
     public Resume get(String uuid) {
-        return getResume(resumeNotExist(uuid));
+        return getResume(getKeyOrResumeNotExistException(uuid));
     }
 
-    private Object resumeNotExist(String uuid) {
+    private Object getKeyOrResumeNotExistException(String uuid) {
         Object key = getResumeKey(uuid);
         if (!isResumeExist(key)) {
             throw new NotExistStorageException(uuid);
@@ -44,13 +45,12 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> list = getAllResume();
-        return list.stream()
-                .sorted(Comparator.<Resume>naturalOrder().thenComparing(Resume::getUuid))
+        return getAllResume()
+                .sorted(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid))
                 .collect(Collectors.toList());
     }
 
-    protected abstract List<Resume> getAllResume();
+    protected abstract Stream<Resume> getAllResume();
 
     protected abstract Resume getResume(Object key);
 

@@ -3,9 +3,9 @@ package com.resume.app.storage;
 import com.resume.app.model.Resume;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractMapStorage extends AbstractStorage {
     protected Map<String, Resume> storage = new HashMap<>();
@@ -21,9 +21,10 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     }
 
     @Override
-    protected List<Resume> getAllResume() {
+    protected Stream<Resume> getAllResume() {
         return storage.entrySet().stream()
                 .map(el -> el.getValue())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                .stream();
     }
 }

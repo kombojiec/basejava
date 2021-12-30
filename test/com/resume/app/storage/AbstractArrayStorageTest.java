@@ -82,7 +82,7 @@ abstract class AbstractArrayStorageTest {
     @Test
     void get() {
         Resume resume = storage.get(resume_1.getUuid());
-        assertEquals(resume, resume_1);
+        assertEquals(resume_1, resume);
     }
 
     @Test
@@ -105,10 +105,8 @@ abstract class AbstractArrayStorageTest {
     @Test
     void getAllSorted() {
         List<Resume> resumeStorage = Arrays.asList(resume_2, resume_3, resume_1);
-        resumeStorage.sort(Comparator.<Resume>naturalOrder().thenComparing(Resume::getUuid));
+        resumeStorage.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         assertEquals(3, storage.getAllSorted().size());
-        assertEquals(resumeStorage.get(0), storage.getAllSorted().get(0));
-        assertEquals(resumeStorage.get(1), storage.getAllSorted().get(1));
-        assertEquals(resumeStorage.get(2), storage.getAllSorted().get(2));
+        assertEquals(resumeStorage, storage.getAllSorted());
     }
 }

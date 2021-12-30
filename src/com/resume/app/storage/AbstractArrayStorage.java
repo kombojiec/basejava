@@ -4,7 +4,7 @@ import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final static int STORAGE_SIZE = 100;
@@ -62,8 +62,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected List<Resume> getAllResume() {
-        return Arrays.asList(Arrays.copyOf(storage, size));
+    protected Stream<Resume> getAllResume() {
+        return Arrays.asList(Arrays.copyOf(storage, size)).stream();
     }
 
     protected abstract void insertElement(int index, Resume resume);
