@@ -176,6 +176,7 @@ public class ResumeTestData {
                 "\t3 месяца обучения мобильным IN сетям (Берлин)",
                 LocalDate.of(2005, 1, 1),
                 LocalDate.of(2005, 4, 1));
+        organization.setLink(link);
         organizationList.add(organization);
 
         link = new Link("Alcatel", "http://www.alcatel.ru/");
