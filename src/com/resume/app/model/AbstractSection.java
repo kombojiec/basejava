@@ -1,9 +1,9 @@
 package com.resume.app.model;
 
-public abstract class Section {
+public abstract class AbstractSection {
     private SectionType section;
 
-    protected Section(SectionType section) {
+    protected AbstractSection(SectionType section) {
         this.section = section;
     }
 

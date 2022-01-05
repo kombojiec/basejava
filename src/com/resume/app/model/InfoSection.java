@@ -1,6 +1,6 @@
 package com.resume.app.model;
 
-public class InfoSection extends Section {
+public class InfoSection extends AbstractSection {
     private String content;
 
     public InfoSection(SectionType section, String content) {

@@ -2,7 +2,7 @@ package com.resume.app.model;
 
 import java.util.List;
 
-public class ListSection extends Section {
+public class ListSection extends AbstractSection {
     private List<String> elements;
 
     public ListSection(SectionType section, List<String> elements) {
