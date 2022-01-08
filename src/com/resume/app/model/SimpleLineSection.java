@@ -1,9 +1,9 @@
 package com.resume.app.model;
 
-public class InfoSection extends AbstractSection {
+public class SimpleLineSection extends AbstractSection {
     private String content;
 
-    public InfoSection(SectionType section, String content) {
+    public SimpleLineSection(SectionType section, String content) {
         super(section);
         this.content = content;
     }
@@ -18,7 +18,6 @@ public class InfoSection extends AbstractSection {
 
     @Override
     public String toString() {
-
         return SectionType.valueOf(getSection().toString()).getSection() + "\n" + content + "\n";
     }
 }
