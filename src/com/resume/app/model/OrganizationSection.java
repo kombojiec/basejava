@@ -5,8 +5,7 @@ import java.util.List;
 public class OrganizationSection extends AbstractSection {
     private List<Organization> organizations;
 
-    public OrganizationSection(SectionType section, List<Organization> organizations) {
-        super(section);
+    public OrganizationSection(List<Organization> organizations) {
         this.organizations = organizations;
     }
 
@@ -21,7 +20,6 @@ public class OrganizationSection extends AbstractSection {
     @Override
     public String toString() {
         StringBuilder answer = new StringBuilder();
-        answer.append(getSection().getSection()).append("\n");
         for (Organization organization : organizations) {
             answer.append(organization).append("\n");
         }

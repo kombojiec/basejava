@@ -18,11 +18,11 @@ public class ResumeTestData {
         resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
         resume.setContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
 
-        SimpleLineSection objective = new SimpleLineSection(SectionType.OBJECTIVE,
+        SimpleLineSection objective = new SimpleLineSection(
                 "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         resume.setSection(SectionType.OBJECTIVE, objective);
 
-        SimpleLineSection personal = new SimpleLineSection(SectionType.PERSONAL,
+        SimpleLineSection personal = new SimpleLineSection(
                 "Аналитический склад ума, сильная логика, креативность, инициативность. " +
                         "Пурист кода и архитектуры.");
         resume.setSection(SectionType.PERSONAL, personal);
@@ -46,7 +46,7 @@ public class ResumeTestData {
                 "мониторинга системы по JMX (Jython/ Django).");
         achievementList.add("Реализация протоколов по приему платежей всех основных платежных системы России " +
                 "(Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        ListSection achievement = new ListSection(SectionType.ACHIEVEMENT, achievementList);
+        ListSection achievement = new ListSection(achievementList);
         resume.setSection(SectionType.ACHIEVEMENT, achievement);
 
         List<String> qualificationsList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class ResumeTestData {
         qualificationsList.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, " +
                 "архитектурных шаблонов, UML, функционального программирования");
         qualificationsList.add("Родной русский, английский \"upper intermediate\"");
-        ListSection qualifications = new ListSection(SectionType.QUALIFICATIONS, qualificationsList);
+        ListSection qualifications = new ListSection(qualificationsList);
         resume.setSection(SectionType.QUALIFICATIONS, qualifications);
 
         List<Organization> organizationList = new ArrayList<>();
@@ -150,7 +150,7 @@ public class ResumeTestData {
         organization.setLink(link);
         organizationList.add(organization);
 
-        OrganizationSection workOrganizations = new OrganizationSection(SectionType.EXPERIENCE, organizationList);
+        OrganizationSection workOrganizations = new OrganizationSection(organizationList);
         resume.setSection(SectionType.EXPERIENCE, workOrganizations);
 
         organizationList = new ArrayList<>();
@@ -210,7 +210,7 @@ public class ResumeTestData {
         organization.setLink(link);
         organizationList.add(organization);
 
-        OrganizationSection educationOrganizations = new OrganizationSection(SectionType.EDUCATION, organizationList);
+        OrganizationSection educationOrganizations = new OrganizationSection(organizationList);
         resume.setSection(SectionType.EDUCATION, educationOrganizations);
 
         System.out.println(resume);

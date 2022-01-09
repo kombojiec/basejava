@@ -5,8 +5,7 @@ import java.util.List;
 public class ListSection extends AbstractSection {
     private List<String> elements;
 
-    public ListSection(SectionType section, List<String> elements) {
-        super(section);
+    public ListSection(List<String> elements) {
         this.elements = elements;
     }
 
@@ -21,7 +20,6 @@ public class ListSection extends AbstractSection {
     @Override
     public String toString() {
         StringBuilder answer = new StringBuilder();
-        answer.append(getSection().getSection()).append("\n");
         for (String element : elements) {
             answer.append("- ").append(element).append("\n");
         }

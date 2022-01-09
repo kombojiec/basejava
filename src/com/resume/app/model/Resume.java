@@ -70,15 +70,16 @@ public class Resume implements Comparable<Resume> {
     public String toString() {
         StringBuilder answer = new StringBuilder();
         answer.append("Resume{\n")
-                .append("uuid= " + uuid + '\n')
-                .append("fullName= " + fullName + "\n\n");
+                .append("uuid = " + uuid + '\n')
+                .append("Full name = " + fullName + "\n\n");
         for (Map.Entry entry : contacts.entrySet()) {
             answer.append(entry.getKey()).append(": ").append(entry.getValue())
                     .append("\n");
         }
         answer.append("\n");
         for (Map.Entry<SectionType, AbstractSection> section : sections.entrySet()) {
-            answer.append(section.getValue()).append("\n");
+            answer.append(section.getKey().getSection()).append("\n")
+                    .append(section.getValue()).append("\n");
         }
         answer.append("}");
         return answer.toString();

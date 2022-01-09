@@ -3,8 +3,7 @@ package com.resume.app.model;
 public class SimpleLineSection extends AbstractSection {
     private String content;
 
-    public SimpleLineSection(SectionType section, String content) {
-        super(section);
+    public SimpleLineSection(String content) {
         this.content = content;
     }
 
@@ -18,6 +17,6 @@ public class SimpleLineSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return SectionType.valueOf(getSection().toString()).getSection() + "\n" + content + "\n";
+        return content + "\n";
     }
 }
