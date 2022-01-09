@@ -1,19 +1,16 @@
 package com.resume.app.model;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Organization {
     private String title;
-    private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
     private Link link;
+    List<Position> positions = new ArrayList<>();
 
-    public Organization(String title, String description, LocalDate startDate, LocalDate endDate) {
+    public Organization(String title, Position position) {
         this.title = title;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.positions.add(position);
     }
 
     public String getTitle() {
@@ -24,29 +21,6 @@ public class Organization {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
 
     public Link getLink() {
         return link;
@@ -56,6 +30,14 @@ public class Organization {
         this.link = link;
     }
 
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPosition(Position position) {
+        this.positions.add(position);
+    }
+
     @Override
     public String toString() {
         StringBuilder answer = new StringBuilder();
@@ -63,8 +45,10 @@ public class Organization {
         if (link != null) {
             answer.append("Home page: ").append(link).append("\n");
         }
-        answer.append("Date: ").append(startDate).append(" - ").append(endDate).append("\n")
-                .append("Description: ").append(description).append("\n");
+        for (Position position: positions) {
+            answer.append(position);
+            answer.append(positions.size() > 1? "\n": "");
+        }
         return answer.toString();
     }
 }
