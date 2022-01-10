@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<T> implements Storage {
 
     @Override
     public void update(Resume resume) {
@@ -18,7 +18,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object key = getResumeKey(resume.getUuid());
+        T key = getResumeKey(resume.getUuid());
         if (isResumeExist(key)) {
             throw new ExistStorageException(resume.getUuid());
         }
@@ -35,8 +35,8 @@ public abstract class AbstractStorage implements Storage {
         return getResume(getKeyOrResumeNotExistException(uuid));
     }
 
-    private Object getKeyOrResumeNotExistException(String uuid) {
-        Object key = getResumeKey(uuid);
+    private T getKeyOrResumeNotExistException(String uuid) {
+        T key = getResumeKey(uuid);
         if (!isResumeExist(key)) {
             throw new NotExistStorageException(uuid);
         }
@@ -52,15 +52,15 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Stream<Resume> getAllResume();
 
-    protected abstract Resume getResume(Object key);
+    protected abstract Resume getResume(T key);
 
-    protected abstract Object getResumeKey(String uuid);
+    protected abstract T getResumeKey(String uuid);
 
-    protected abstract boolean isResumeExist(Object key);
+    protected abstract boolean isResumeExist(T key);
 
-    protected abstract void updateResume(Resume resume, Object key);
+    protected abstract void updateResume(Resume resume, T key);
 
-    protected abstract void saveResume(Resume resume, Object key);
+    protected abstract void saveResume(Resume resume, T key);
 
-    protected abstract void deleteResume(Object key);
+    protected abstract void deleteResume(T key);
 }
