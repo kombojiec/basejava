@@ -7,9 +7,20 @@ import java.util.*;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        String fullName = "Григорий Кислин";
-        Resume resume = new Resume(fullName);
 
+        Resume resume = createResume("uuid666", "Григорий Кислин");
+        System.out.println(resume);
+
+    }
+
+    public static Resume createResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        fillResumeContacts(resume);
+        fillResumeSections(resume);
+        return resume;
+    }
+
+    private static void fillResumeContacts(Resume resume) {
         resume.setContact(ContactType.PHONE, "+7(921) 855-0482");
         resume.setContact(ContactType.SKYPE, "grigory.kislin");
         resume.setContact(ContactType.MAIL, "gkislin@yandex.ru");
@@ -17,7 +28,9 @@ public class ResumeTestData {
         resume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
         resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
         resume.setContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
+    }
 
+    private static void fillResumeSections(Resume resume) {
         SimpleLineSection objective = new SimpleLineSection(
                 "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         resume.setSection(SectionType.OBJECTIVE, objective);
@@ -212,8 +225,6 @@ public class ResumeTestData {
 
         OrganizationSection educationOrganizations = new OrganizationSection(organizationList);
         resume.setSection(SectionType.EDUCATION, educationOrganizations);
-
-        System.out.println(resume);
-
     }
+
 }
