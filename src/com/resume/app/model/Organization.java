@@ -6,7 +6,7 @@ import java.util.List;
 public class Organization {
     private String title;
     private Link link;
-    List<Position> positions = new ArrayList<>();
+    private List<Position> positions = new ArrayList<>();
 
     public Organization(String title, Position position) {
         this.title = title;

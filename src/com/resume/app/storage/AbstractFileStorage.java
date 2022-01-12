@@ -23,7 +23,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Stream<Resume> getAllResume() {
+    protected Stream<Resume> getAllResumeStream() {
         return Arrays.stream(storage.listFiles())
                 .map(this::getResume);
     }
@@ -34,7 +34,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected File getResumeKey(String uuid) {
+    protected File getSearchKey(String uuid) {
         return new File(storage, uuid);
     }
 

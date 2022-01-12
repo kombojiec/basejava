@@ -6,7 +6,7 @@ import com.resume.app.model.Resume;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected final static int STORAGE_SIZE = 100;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size;
@@ -23,27 +23,27 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object index) {
-        return storage[(int) index];
+    protected Resume getResume(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected Object getResumeKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         return getResumePosition(uuid);
     }
 
     @Override
-    protected boolean isResumeExist(Object index) {
+    protected boolean isResumeExist(Integer index) {
         return (int) index >= 0;
     }
 
     @Override
-    protected void updateResume(Resume resume, Object index) {
+    protected void updateResume(Resume resume, Integer index) {
         storage[(int) index] = resume;
     }
 
     @Override
-    protected void saveResume(Resume resume, Object index) {
+    protected void saveResume(Resume resume, Integer index) {
         if (size < STORAGE_SIZE) {
             insertElement((int) index, resume);
             ++size;
@@ -55,15 +55,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(Object index) {
+    protected void deleteResume(Integer index) {
         int position = (int) index;
         System.arraycopy(storage, position + 1, storage, position, size - position - 1);
         --size;
     }
 
     @Override
-    protected Stream<Resume> getAllResume() {
-        return Arrays.asList(Arrays.copyOf(storage, size)).stream();
+    protected Stream<Resume> getAllResumeStream() {
+        return Arrays.stream(Arrays.copyOf(storage, size));
     }
 
     protected abstract void insertElement(int index, Resume resume);

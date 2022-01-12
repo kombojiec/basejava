@@ -25,7 +25,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getResumeKey(String str) {
+    protected Object getSearchKey(String str) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(str)) {
                 return i;
@@ -35,7 +35,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Stream<Resume> getAllResume() {
+    protected Stream<Resume> getAllResumeStream() {
         return storage.stream();
     }
 
