@@ -45,7 +45,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void updateResume(Resume resume, File file) {
-        saveResume(resume, file);
+        try {
+            recordResume(resume, file);
+        } catch (IOException e) {
+            throw new StorageException("Update resume error: ", file.getName(), e);
+        }
     }
 
     @Override
@@ -65,13 +69,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int getSize() {
-        return storage.listFiles().length;
+
+        return storage.listFiles() == null? 0: storage.listFiles().length;
     }
 
     @Override
     public void clear() {
-        for (File file : storage.listFiles()) {
-            file.delete();
+        if(storage.listFiles() != null) {
+            for (File file : storage.listFiles()) {
+                file.delete();
+            }
         }
     }
 

@@ -14,6 +14,6 @@ public class Link {
 
     @Override
     public String toString() {
-        return  url;
+        return  url == null? "--": url;
     }
 }

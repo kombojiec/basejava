@@ -1,9 +1,11 @@
 package com.resume.app;
 
 import com.resume.app.model.*;
+import com.resume.app.util.DateUtil;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeTestData {
     public static void main(String[] args) {
@@ -90,17 +92,19 @@ public class ResumeTestData {
 
         List<Organization> organizationList = new ArrayList<>();
 
-        Link link = new Link("Java Online Projects", "https://javaops.ru/");
-        Position position = new Position("Автор проекта.\n" +
+        List<Organization.Position> positions = new ArrayList<>();
+        Organization.Position position = new Organization.Position("Автор проекта.\n" +
                 "Проектирование и разработка " +
                 "онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, " +
                 "PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.",
-                LocalDate.of(2013, 10, 1), LocalDate.now());
-        Organization organization = new Organization("Java Online Projects", position);
-        organization.setLink(link);
+                DateUtil.of(2013, Month.OCTOBER), DateUtil.NOW);
+        positions.add(position);
+        Organization organization = new Organization("Java Online Projects",
+                "https://javaops.ru/", positions);
         organizationList.add(organization);
 
-        position = new Position("Организация процесса разработки системы ERP " +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Организация процесса разработки системы ERP " +
                 "для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
                 "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. " +
                 "Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, " +
@@ -108,119 +112,122 @@ public class ResumeTestData {
                 "Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. " +
                 "Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, " +
                 "OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python",
-                LocalDate.of(2012, 4, 1), LocalDate.of(2014, 10, 1));
-        organization = new Organization("RIT Center", position);
+                DateUtil.of(2012, Month.APRIL), DateUtil.of(2014, Month.OCTOBER));
+        positions.add(position);
+        organization = new Organization("RIT Center", null, positions);
         organizationList.add(organization);
 
-        link = new Link("Luxoft (Deutsche Bank)", "https://career.luxoft.com/locations/russia/");
-        position = new Position("Ведущий программист\n" +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Ведущий программист\n" +
                 "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, " +
                 "Jasper, Oracle). Реализация клиентской и серверной части CRM. " +
                 "Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области " +
                 "алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.",
-                LocalDate.of(2010, 12, 1), LocalDate.of(2012, 4, 1));
-        organization = new Organization("Luxoft (Deutsche Bank)", position);
-        organization.setLink(link);
+                DateUtil.of(2010, Month.DECEMBER), DateUtil.of(2012, Month.APRIL));
+        positions.add(position);
+        organization = new Organization("Luxoft (Deutsche Bank)", "https://career.luxoft.com/locations/russia/", positions);
         organizationList.add(organization);
 
-        link = new Link("Yota", "https://www.yota.ru/");
-        position = new Position("Ведущий специалист\n" +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Ведущий специалист\n" +
                 "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" " +
                 "(GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). " +
                 "Реализация администрирования, статистики и мониторинга фреймворка. " +
                 "Разработка online JMX клиента (Python/ Jython, Django, ExtJS)",
-                LocalDate.of(2008, 6, 1), LocalDate.of(2010, 12, 1));
-        organization = new Organization("Yota", position);
-        organization.setLink(link);
+                DateUtil.of(2008, Month.JUNE), DateUtil.of(2010, Month.DECEMBER));
+        positions.add(position);
+        organization = new Organization("Yota", "https://www.yota.ru/", positions);
         organizationList.add(organization);
 
-        link = new Link("Enkata", "https://www.pega.com/products/platform/robotic-process-automation");
-        position = new Position("Разработчик ПО\n" +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Разработчик ПО\n" +
                 "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей " +
                 "кластерного J2EE приложения (OLAP, Data mining).",
-                LocalDate.of(2007, 3, 1),
-                LocalDate.of(2008, 6, 1));
-        organization = new Organization("Enkata", position);
-        organization.setLink(link);
+                DateUtil.of(2007, Month.MARCH),
+                DateUtil.of(2008, Month.JANUARY));
+        positions.add(position);
+        organization = new Organization("Enkata", "https://www.pega.com/products/platform/robotic-process-automation", positions);
         organizationList.add(organization);
 
-        link = new Link("Siemens AG", "https://new.siemens.com/ru/ru.html");
-        position = new Position("Разработчик ПО\n" +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Разработчик ПО\n" +
                 "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО " +
                 "на мобильной IN платформе Siemens @vantage (Java, Unix).",
-                LocalDate.of(2005, 1, 1),
-                LocalDate.of(2007, 2, 1));
-        organization = new Organization("Siemens AG", position);
-        organization.setLink(link);
+                DateUtil.of(2005, Month.JANUARY),
+                DateUtil.of(2007, Month.FEBRUARY));
+        positions.add(position);
+        organization = new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", positions);
         organizationList.add(organization);
 
-        link = new Link("Alcatel", "http://www.alcatel.ru/");
-        position = new Position("Инженер по аппаратному и программному тестированию\n" +
+        positions = new ArrayList<>();
+        position = new Organization.Position("Инженер по аппаратному и программному тестированию\n" +
                 "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).",
-                LocalDate.of(1997, 9, 1),
-                LocalDate.of(2005, 1, 1));
-        organization = new Organization("Alcatel", position);
-        organization.setLink(link);
+                DateUtil.of(1997, Month.SEPTEMBER),
+                DateUtil.of(2005, Month.JANUARY));
+        positions.add(position);
+        organization = new Organization("Alcatel", "http://www.alcatel.ru/", positions);
         organizationList.add(organization);
 
         OrganizationSection workOrganizations = new OrganizationSection(organizationList);
         resume.setSection(SectionType.EXPERIENCE, workOrganizations);
 
         organizationList = new ArrayList<>();
-        link = new Link("Coursera", "https://www.coursera.org/learn/scala-functional-programming");
-        position = new Position("\"Functional Programming Principles in Scala\" by Martin Odersky",
-                LocalDate.of(2013, 3, 1),
-                LocalDate.of(2014, 5, 1));
-        organization = new Organization("Coursera", position);
-        organization.setLink(link);
+        positions = new ArrayList<>();
+        position = new Organization.Position("\"Functional Programming Principles in Scala\" by Martin Odersky",
+                DateUtil.of(2013, Month.MARCH),
+                DateUtil.of(2014, Month.MAY));
+        positions.add(position);
+        organization = new Organization("Coursera",
+                "https://www.coursera.org/learn/scala-functional-programming", positions);
         organizationList.add(organization);
 
-        link = new Link("Luxoft",
-                "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html");
-        position = new Position("Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                LocalDate.of(2011, 3, 1),
-                LocalDate.of(2011, 4, 1));
-        organization = new Organization("Luxoft", position);
-        organization.setLink(link);
+        positions = new ArrayList<>();
+        position = new Organization.Position("Курс \"Объектно-ориентированный анализ ИС. " +
+                "Концептуальное моделирование на UML.\"",
+                DateUtil.of(2011, Month.MARCH),
+                DateUtil.of(2011, Month.APRIL));
+        positions.add(position);
+        organization = new Organization("Luxoft",
+                "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html",
+                positions);
         organizationList.add(organization);
 
-        link = new Link("Siemens AG", "https://new.siemens.com/ru/ru.html");
-        position = new Position("\t3 месяца обучения мобильным IN сетям (Берлин)",
-                LocalDate.of(2005, 1, 1),
-                LocalDate.of(2005, 4, 1));
-        organization = new Organization("Siemens AG", position);
-        organization.setLink(link);
+        positions = new ArrayList<>();
+        position = new Organization.Position("\t3 месяца обучения мобильным IN сетям (Берлин)",
+                DateUtil.of(2005, Month.JANUARY),
+                DateUtil.of(2005, Month.APRIL));
+        positions.add(position);
+        organization = new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html", positions);
         organizationList.add(organization);
 
-        link = new Link("Alcatel", "http://www.alcatel.ru/");
-        position = new Position("\t6 месяцев обучения цифровым телефонным сетям (Москва)",
-                LocalDate.of(1997, 9, 1),
-                LocalDate.of(1998, 3, 1));
-        organization = new Organization("Alcatel", position);
-        organization.setLink(link);
+        positions = new ArrayList<>();
+        position = new Organization.Position("\t6 месяцев обучения цифровым телефонным сетям (Москва)",
+                DateUtil.of(1997, Month.SEPTEMBER),
+                DateUtil.of(1998, Month.MARCH));
+        positions.add(position);
+        organization = new Organization("Alcatel", "http://www.alcatel.ru/", positions);
         organizationList.add(organization);
 
-        link = new Link("Санкт-Петербургский национальный исследовательский университет информационных " +
-                "технологий, механики и оптики", "https://itmo.ru/ru/");
-        position = new Position("Аспирантура (программист С, С++)",
-                LocalDate.of(1993, 9, 1),
-                LocalDate.of(1996, 7, 1));
+        positions = new ArrayList<>();
+        position = new Organization.Position("Аспирантура (программист С, С++)",
+                DateUtil.of(1993, Month.SEPTEMBER),
+                DateUtil.of(1996, Month.JULY));
+        positions.add(position);
+        position = new Organization.Position("Инженер (программист Fortran, C)",
+                DateUtil.of(1987, Month.SEPTEMBER),
+                DateUtil.of(1993, Month.JULY));
+        positions.add(position);
         organization = new Organization("Санкт-Петербургский национальный исследовательский университет " +
-                "информационных технологий, механики и оптики", position);
-        organization.setLink(link);
-
-        position = new Position("Инженер (программист Fortran, C)",
-                LocalDate.of(1987, 9, 1),
-                LocalDate.of(1993, 7, 1));
-        organization.setPosition(position);
+                "информационных технологий, механики и оптики", "https://itmo.ru/ru/", positions);
         organizationList.add(organization);
 
-        link = new Link("Заочная физико-техническая школа при МФТИ", "https://school.mipt.ru/");
-        position = new Position("Закончил с отличием",
-                LocalDate.of(1984, 9, 1),
-                LocalDate.of(1987, 6, 1));
-        organization = new Organization("Заочная физико-техническая школа при МФТИ", position);
-        organization.setLink(link);
+        positions = new ArrayList<>();
+        position = new Organization.Position("Закончил с отличием",
+                DateUtil.of(1984, Month.SEPTEMBER),
+                DateUtil.of(1987, Month.JUNE));
+        positions.add(position);
+        organization = new Organization("Заочная физико-техническая школа при МФТИ",
+                "https://school.mipt.ru/", positions);
         organizationList.add(organization);
 
         OrganizationSection educationOrganizations = new OrganizationSection(organizationList);
