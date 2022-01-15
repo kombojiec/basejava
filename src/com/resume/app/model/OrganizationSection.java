@@ -3,6 +3,7 @@ package com.resume.app.model;
 import java.util.List;
 
 public class OrganizationSection extends AbstractSection {
+    private static final long serialVersionUID = 1L;
     private List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {

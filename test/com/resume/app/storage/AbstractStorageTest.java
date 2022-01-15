@@ -7,6 +7,8 @@ import com.resume.app.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
+    protected final static File STORAGE_DIR = new File("storage");
     protected final Storage storage;
     private final Resume resume_1 = ResumeTestData.createResume("uuid#1", "uuid#1");
     private final Resume resume_2 = ResumeTestData.createResume("uuid#2", "uuid#2");
@@ -44,7 +47,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void update() {
+    void update() throws FileNotFoundException {
         storage.update(resume_1);
         assertSame(resume_1, storage.get(resume_1.getUuid()));
     }
@@ -55,7 +58,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void save() {
+    void save() throws FileNotFoundException {
         storage.save(notExistResume);
         assertEquals(notExistResume, storage.get(notExistResume.getUuid()));
         assertEquals(4, storage.getSize());
@@ -67,7 +70,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void get() {
+    void get() throws FileNotFoundException {
         Resume resume = storage.get(resume_1.getUuid());
         assertEquals(resume_1, resume);
     }

@@ -4,6 +4,7 @@ import com.resume.app.exception.ExistStorageException;
 import com.resume.app.exception.NotExistStorageException;
 import com.resume.app.model.Resume;
 
+import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,7 +38,7 @@ public abstract class AbstractStorage<T> implements Storage {
     }
 
     @Override
-    public Resume get(String uuid) {
+    public Resume get(String uuid) throws FileNotFoundException {
         LOGGER.info("Get " + uuid);
         return getResume(getKeyOrResumeNotExistException(uuid));
     }
@@ -61,7 +62,7 @@ public abstract class AbstractStorage<T> implements Storage {
 
     protected abstract Stream<Resume> getAllResumeStream();
 
-    protected abstract Resume getResume(T key);
+    protected abstract Resume getResume(T key) throws FileNotFoundException;
 
     protected abstract T getSearchKey(String uuid);
 

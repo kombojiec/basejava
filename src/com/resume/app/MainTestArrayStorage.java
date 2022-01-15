@@ -4,6 +4,8 @@ import com.resume.app.model.Resume;
 import com.resume.app.storage.ArrayStorage;
 import com.resume.app.storage.Storage;
 
+import java.io.FileNotFoundException;
+
 /**
  * Test for your com.resume.app.storage.ArrayStorage implementation
  */
@@ -11,7 +13,7 @@ public class MainTestArrayStorage {
 //    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
     static final Storage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Resume r1 = new Resume("uuid3", "uuid3");
         Resume r2 = new Resume("uuid4", "uuid4");
         Resume r3 = new Resume("uuid1", "uuid1");

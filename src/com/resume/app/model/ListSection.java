@@ -1,8 +1,10 @@
 package com.resume.app.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ListSection extends AbstractSection {
+public class ListSection extends AbstractSection implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<String> elements;
 
     public ListSection(List<String> elements) {

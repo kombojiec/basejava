@@ -1,4 +1,6 @@
 package com.resume.app.model;
 
-public abstract class AbstractSection {
+import java.io.Serializable;
+
+public abstract class AbstractSection implements Serializable {
 }

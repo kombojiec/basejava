@@ -1,10 +1,12 @@
 package com.resume.app.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String title;
     private Link link;
     private List<Position> positions = new ArrayList<>();
@@ -54,7 +56,8 @@ public class Organization {
         return answer.toString();
     }
 
-    public static class Position {
+    public static class Position implements Serializable{
+        private static final long serialVersionUID = 1L;
         private String description;
         private LocalDate startDate;
         private LocalDate endDate;

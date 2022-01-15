@@ -1,6 +1,9 @@
 package com.resume.app.model;
 
-public class SimpleLineSection extends AbstractSection {
+import java.io.Serializable;
+
+public class SimpleLineSection extends AbstractSection implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String content;
 
     public SimpleLineSection(String content) {
