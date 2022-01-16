@@ -15,6 +15,19 @@ public class Link implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Link)) return false;
+        Link link = (Link) o;
+        return Objects.equals(name, link.name) && Objects.equals(url, link.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, url);
+    }
+
+    @Override
     public String toString() {
         return  url == null? "--": url;
     }

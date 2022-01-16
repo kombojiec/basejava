@@ -5,6 +5,7 @@ import com.resume.app.exception.NotExistStorageException;
 import com.resume.app.model.Resume;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,14 +54,14 @@ public abstract class AbstractStorage<T> implements Storage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> getAllSorted() throws IOException {
         LOGGER.info("GetAllSorted");
         return getAllResumeStream()
                 .sorted(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid))
                 .collect(Collectors.toList());
     }
 
-    protected abstract Stream<Resume> getAllResumeStream();
+    protected abstract Stream<Resume> getAllResumeStream() throws IOException;
 
     protected abstract Resume getResume(T key) throws FileNotFoundException;
 

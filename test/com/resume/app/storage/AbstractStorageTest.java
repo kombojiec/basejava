@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -49,7 +50,7 @@ public abstract class AbstractStorageTest {
     @Test
     void update() throws FileNotFoundException {
         storage.update(resume_1);
-        assertSame(resume_1, storage.get(resume_1.getUuid()));
+        assertTrue(resume_1.equals(storage.get(resume_1.getUuid())));
     }
 
     @Test
@@ -93,7 +94,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void getAllSorted() {
+    void getAllSorted() throws IOException {
         List<Resume> resumeStorage = Arrays.asList(resume_2, resume_3, resume_1);
         resumeStorage.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         assertEquals(3, storage.getAllSorted().size());

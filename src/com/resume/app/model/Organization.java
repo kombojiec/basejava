@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -100,5 +101,31 @@ public class Organization implements Serializable {
                     .append("\n");
             return answer.toString();
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Position)) return false;
+            Position position = (Position) o;
+            return Objects.equals(getDescription(), position.getDescription()) && Objects.equals(getStartDate(), position.getStartDate()) && Objects.equals(getEndDate(), position.getEndDate());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getDescription(), getStartDate(), getEndDate());
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organization)) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getLink(), that.getLink()) && Objects.equals(getPositions(), that.getPositions());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getLink(), getPositions());
     }
 }

@@ -3,6 +3,7 @@ package com.resume.app.storage;
 import com.resume.app.model.Resume;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface Storage {
@@ -18,5 +19,5 @@ public interface Storage {
 
     void delete(String uuid);
 
-    List<Resume> getAllSorted();
+    List<Resume> getAllSorted() throws IOException;
 }
