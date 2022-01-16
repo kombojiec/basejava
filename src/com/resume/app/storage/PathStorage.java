@@ -10,10 +10,12 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private final Path storage;
+    private final ObjectStorage objectStorage;
 
-    protected AbstractPathStorage(String path) {
+    protected PathStorage(String path, ObjectStorage objectStorage) {
+        this.objectStorage = objectStorage;
         storage = Paths.get(path);
         Objects.requireNonNull(storage, "Directory can't be null");
         if (!Files.isDirectory(storage)) {
@@ -36,11 +38,10 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getResume(Path Path) {
         try {
-            return readResume(new BufferedInputStream(new FileInputStream(Path.toFile())));
+            return objectStorage.readResume(new BufferedInputStream(new FileInputStream(Path.toFile())));
         } catch (IOException e) {
             throw new StorageException("getResume error ", Path.toAbsolutePath().toString(), e);
         }
-
     }
 
     @Override
@@ -56,7 +57,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateResume(Resume resume, Path Path) {
         try {
-            recordResume(resume, new BufferedOutputStream(new FileOutputStream(Path.toFile())));
+            objectStorage.recordResume(resume, new BufferedOutputStream(new FileOutputStream(Path.toFile())));
         } catch (IOException e) {
             throw new StorageException("Update resume error: ", Path.toAbsolutePath().toString(), e);
         }
@@ -99,9 +100,5 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             throw new StorageException("Clear method error", null, ex);
         }
     }
-
-    protected abstract void recordResume(Resume resume, OutputStream outputStream) throws IOException;
-
-    protected abstract Resume readResume(InputStream inputStream) throws IOException;
 
 }

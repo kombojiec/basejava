@@ -5,20 +5,17 @@ import com.resume.app.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamFileStorage extends AbstractFileStorage {
-    public ObjectStreamFileStorage(File storage) {
-        super(storage);
-    }
+public class PathStorageUtil implements ObjectStorage {
 
     @Override
-    protected void recordResume(Resume resume, OutputStream outputStream) throws IOException {
+    public void recordResume(Resume resume, OutputStream outputStream) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(outputStream)) {
             oos.writeObject(resume);
         }
     }
 
     @Override
-    protected Resume readResume(InputStream inputStream) throws IOException {
+    public Resume readResume(InputStream inputStream) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(inputStream)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
