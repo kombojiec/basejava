@@ -1,11 +1,11 @@
-package com.resume.app.storage;
+package com.resume.app.storage.serializer;
 
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
 
 import java.io.*;
 
-public class FileStorageUtil implements ObjectStorage {
+public class ObjectStreamSerializer implements ObjectSerializer {
 
     @Override
     public void recordResume(Resume resume, OutputStream outputStream) throws IOException {

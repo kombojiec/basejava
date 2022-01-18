@@ -6,19 +6,19 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         File root =  new File("src/");
-        printPacage(root);
+        printFilesHierarchy(root, 0);
     }
 
-    public static void printPacage(File folder) throws IOException {
-        System.out.println("Directory: " + folder.getName());
-        File[] files =  folder.listFiles();
-        if(files != null) {
-            for(File file: files) {
-                if(file.isDirectory()) {
-                    printPacage(file);
-                } else {
-                    System.out.println("\tFile: " + file.getName());
-                }
+    public static void printFilesHierarchy(File src, int depth) {
+        if(null == src) {
+            return;
+        }
+        for(File file: src.listFiles()) {
+            if(file.isDirectory()) {
+                System.out.print(file.toString().indent(depth + 4));
+                printFilesHierarchy(file, depth + 4);
+            } else {
+                System.out.print(file.toString().indent(depth + 4));
             }
         }
     }

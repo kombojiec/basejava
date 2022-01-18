@@ -2,6 +2,7 @@ package com.resume.app.storage;
 
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
+import com.resume.app.storage.serializer.ObjectSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,9 +13,9 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path storage;
-    private final ObjectStorage objectStorage;
+    private final ObjectSerializer objectStorage;
 
-    protected PathStorage(String path, ObjectStorage objectStorage) {
+    protected PathStorage(String path, ObjectSerializer objectStorage) {
         this.objectStorage = objectStorage;
         storage = Paths.get(path);
         Objects.requireNonNull(storage, "Directory can't be null");
@@ -27,20 +28,15 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Stream<Resume> getAllResumeStream() {
-        try {
-            return Files.list(storage)
-                    .map(this::getResume);
-        } catch (IOException e) {
-            throw new StorageException("getResume error ", null, e);
-        }
+        return getPathStream(storage).map(this::getResume);
     }
 
     @Override
-    protected Resume getResume(Path Path) {
+    protected Resume getResume(Path path) {
         try {
-            return objectStorage.readResume(new BufferedInputStream(new FileInputStream(Path.toFile())));
+            return objectStorage.readResume(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("getResume error ", Path.toAbsolutePath().toString(), e);
+            throw new StorageException("getResume error ", path.toAbsolutePath().toString(), e);
         }
     }
 
@@ -55,11 +51,11 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected void updateResume(Resume resume, Path Path) {
+    protected void updateResume(Resume resume, Path path) {
         try {
-            objectStorage.recordResume(resume, new BufferedOutputStream(new FileOutputStream(Path.toFile())));
+            objectStorage.recordResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Update resume error: ", Path.toAbsolutePath().toString(), e);
+            throw new StorageException("Update resume error: ", path.toAbsolutePath().toString(), e);
         }
     }
 
@@ -67,10 +63,10 @@ public class PathStorage extends AbstractStorage<Path> {
     protected void saveResume(Resume resume, Path path) {
         try {
             Files.createFile(path);
-            updateResume(resume, path);
         } catch (IOException e) {
             throw new StorageException("Save resume error: ", path.toAbsolutePath().toString(), e);
         }
+        updateResume(resume, path);
     }
 
     @Override
@@ -84,20 +80,19 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int getSize() {
-        try {
-            Long size = Files.list(storage).count();
-            return Math.toIntExact(size);
-        } catch (IOException e) {
-            throw new StorageException("getSize error: ", null, e);
-        }
+        return (int)getPathStream(storage).count();
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(storage).forEach(this::deleteResume);
-        } catch (IOException ex) {
-            throw new StorageException("Clear method error", null, ex);
+        getPathStream(storage).forEach(this::deleteResume);
+    }
+
+    private Stream<Path> getPathStream(Path root) {
+        try{
+            return Files.list(root);
+        } catch (IOException e) {
+            throw new StorageException("Storage folder " + root.getFileName() + " is incorrect", e);
         }
     }
 

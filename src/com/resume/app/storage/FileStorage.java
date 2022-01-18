@@ -2,6 +2,7 @@ package com.resume.app.storage;
 
 import com.resume.app.exception.StorageException;
 import com.resume.app.model.Resume;
+import com.resume.app.storage.serializer.ObjectSerializer;
 
 import java.io.*;
 import java.util.Arrays;
@@ -10,9 +11,9 @@ import java.util.stream.Stream;
 
 public class FileStorage extends AbstractStorage<File> {
     private final File storage;
-    private final ObjectStorage objectStorage;
+    private final ObjectSerializer objectStorage;
 
-    public FileStorage(File storage, ObjectStorage objectStorage) {
+    public FileStorage(File storage, ObjectSerializer objectStorage) {
         this.objectStorage = objectStorage;
         Objects.requireNonNull(storage, "Directory can't be null");
         if (!storage.isDirectory()) {
@@ -25,7 +26,8 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected Stream<Resume> getAllResumeStream()  {
-        return Arrays.stream(Objects.requireNonNull(storage.listFiles()))
+        directoryIsIncorrect(storage);
+        return Arrays.stream(storage.listFiles())
                 .map(this::getResume);
     }
 
@@ -61,29 +63,37 @@ public class FileStorage extends AbstractStorage<File> {
     protected void saveResume(Resume resume, File file) {
         try {
             file.createNewFile();
-            updateResume(resume, file);
         } catch (IOException e) {
             throw new StorageException("Save resume error: ", file.getName(), e);
         }
+        updateResume(resume, file);
     }
 
     @Override
     protected void deleteResume(File file) {
-        file.delete();
+        if(!file.delete()) {
+            throw new StorageException("Delete resume error: ", file.getName());
+        }
     }
 
     @Override
     public int getSize() {
-
-        return storage.listFiles() == null? 0: Objects.requireNonNull(storage.listFiles()).length;
+        directoryIsIncorrect(storage);
+        return storage.listFiles().length;
     }
 
     @Override
     public void clear() {
-        if(storage.listFiles() != null) {
-            for (File file : Objects.requireNonNull(storage.listFiles())) {
-                file.delete();
-            }
+        directoryIsIncorrect(storage);
+        for (File file : storage.listFiles()) {
+            file.delete();
+        }
+    }
+
+    private void directoryIsIncorrect(File file) {
+        File[] files = file.listFiles();
+        if(null == files) {
+            throw new IllegalArgumentException(file.getName() + ".listFiles() equals null");
         }
     }
 
