@@ -28,7 +28,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Stream<Resume> getAllResumeStream() {
-        return getPathStream(storage).map(this::getResume);
+        return getPathStream().map(this::getResume);
     }
 
     @Override
@@ -80,19 +80,19 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int getSize() {
-        return (int)getPathStream(storage).count();
+        return (int)getPathStream().count();
     }
 
     @Override
     public void clear() {
-        getPathStream(storage).forEach(this::deleteResume);
+        getPathStream().forEach(this::deleteResume);
     }
 
-    private Stream<Path> getPathStream(Path root) {
+    private Stream<Path> getPathStream() {
         try{
-            return Files.list(root);
+            return Files.list(storage);
         } catch (IOException e) {
-            throw new StorageException("Storage folder " + root.getFileName() + " is incorrect", e);
+            throw new StorageException("Storage folder " + storage.getFileName() + " is incorrect", e);
         }
     }
 

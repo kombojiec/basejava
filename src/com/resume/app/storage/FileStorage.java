@@ -25,15 +25,15 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Stream<Resume> getAllResumeStream()  {
-        directoryIsIncorrect(storage);
-        return Arrays.stream(storage.listFiles())
+    protected Stream<Resume> getAllResumeStream() {
+        File[] files = getStorageFiles();
+        return Arrays.stream(files)
                 .map(this::getResume);
     }
 
     @Override
     protected Resume getResume(File file) {
-        try{
+        try {
             return objectStorage.readResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException ex) {
             throw new StorageException("getResume error ", file.getName(), ex);
@@ -71,30 +71,31 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected void deleteResume(File file) {
-        if(!file.delete()) {
+        if (!file.delete()) {
             throw new StorageException("Delete resume error: ", file.getName());
         }
     }
 
     @Override
     public int getSize() {
-        directoryIsIncorrect(storage);
-        return storage.listFiles().length;
+        File[] files = getStorageFiles();
+        return files.length;
     }
 
     @Override
     public void clear() {
-        directoryIsIncorrect(storage);
-        for (File file : storage.listFiles()) {
+        File[] files = getStorageFiles();
+        for (File file : files) {
             file.delete();
         }
     }
 
-    private void directoryIsIncorrect(File file) {
-        File[] files = file.listFiles();
-        if(null == files) {
-            throw new IllegalArgumentException(file.getName() + ".listFiles() equals null");
+    private File[] getStorageFiles() {
+        File[] files = storage.listFiles();
+        if (null == files) {
+            throw new StorageException(storage.getName() + ".listFiles() equals null");
         }
+        return files;
     }
 
 }
