@@ -3,12 +3,11 @@ package com.resume.app.model;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ListSection extends AbstractSection implements Serializable {
+public class ListSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
     private List<String> elements;
 

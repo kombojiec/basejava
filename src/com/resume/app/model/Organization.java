@@ -1,5 +1,7 @@
 package com.resume.app.model;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.resume.app.util.GsonLocalDateTimeAdapter;
 import com.resume.app.util.LocalDateAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -71,8 +73,10 @@ public class Organization implements Serializable {
         private static final long serialVersionUID = 1L;
         private String description;
         @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        @JsonAdapter(value = GsonLocalDateTimeAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+        @JsonAdapter(value = GsonLocalDateTimeAdapter.class)
         private LocalDate endDate;
 
         public Position() {
