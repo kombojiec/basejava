@@ -1,21 +1,30 @@
 package com.resume.app.model;
 
+import com.resume.app.util.LocalDateAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
     private String title;
     private Link link;
     private List<Position> positions = new ArrayList<>();
 
+    public Organization() {
+    }
+
     public Organization(String title, String URL, List<Position> positions) {
         this.link = new Link(title, URL);
         this.title = title;
-        this.positions  = positions;
+        this.positions = positions;
     }
 
     public String getTitle() {
@@ -50,18 +59,24 @@ public class Organization implements Serializable {
         if (link != null) {
             answer.append("Home page: ").append(link).append("\n");
         }
-        for (Position position: positions) {
+        for (Position position : positions) {
             answer.append(position);
-            answer.append(positions.size() > 1? "\n": "");
+            answer.append(positions.size() > 1 ? "\n" : "");
         }
         return answer.toString();
     }
 
-    public static class Position implements Serializable{
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Position implements Serializable {
         private static final long serialVersionUID = 1L;
         private String description;
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
         private LocalDate startDate;
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
         private LocalDate endDate;
+
+        public Position() {
+        }
 
         public Position(String description, LocalDate startDate, LocalDate endDate) {
             this.description = description;
@@ -86,7 +101,7 @@ public class Organization implements Serializable {
         }
 
         public LocalDate getEndDate() {
-            return endDate;
+            return this.endDate;
         }
 
         public void setEndDate(LocalDate endDate) {

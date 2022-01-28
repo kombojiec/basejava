@@ -2,8 +2,8 @@ package com.resume.app.storage;
 
 import com.resume.app.storage.serializer.ObjectStreamSerializer;
 
-public class PathStorageTest extends AbstractStorageTest{
-    public PathStorageTest() {
+public class ObjectPathStorageTest extends AbstractStorageTest{
+    public ObjectPathStorageTest() {
         super(new PathStorage(STORAGE_DIR.toString(),
                 new ObjectStreamSerializer()));
     }

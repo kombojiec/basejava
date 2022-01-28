@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path storage;
-    private final ObjectSerializer objectStorage;
+    private final ObjectSerializer objectSerializer;
 
     protected PathStorage(String path, ObjectSerializer objectStorage) {
-        this.objectStorage = objectStorage;
+        this.objectSerializer = objectStorage;
         storage = Paths.get(path);
         Objects.requireNonNull(storage, "Directory can't be null");
         if (!Files.isDirectory(storage)) {
@@ -34,7 +34,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getResume(Path path) {
         try {
-            return objectStorage.readResume(new BufferedInputStream(Files.newInputStream(path)));
+            return objectSerializer.readResume(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("getResume error ", path.toAbsolutePath().toString(), e);
         }
@@ -53,7 +53,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateResume(Resume resume, Path path) {
         try {
-            objectStorage.recordResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            objectSerializer.recordResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Update resume error: ", path.toAbsolutePath().toString(), e);
         }
@@ -80,7 +80,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int getSize() {
-        return (int)getPathStream().count();
+        return (int) getPathStream().count();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     private Stream<Path> getPathStream() {
-        try{
+        try {
             return Files.list(storage);
         } catch (IOException e) {
             throw new StorageException("Storage folder " + storage.getFileName() + " is incorrect", e);
