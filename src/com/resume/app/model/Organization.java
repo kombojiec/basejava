@@ -126,7 +126,9 @@ public class Organization implements Serializable {
             if (this == o) return true;
             if (!(o instanceof Position)) return false;
             Position position = (Position) o;
-            return Objects.equals(getDescription(), position.getDescription()) && Objects.equals(getStartDate(), position.getStartDate()) && Objects.equals(getEndDate(), position.getEndDate());
+            return Objects.equals(getDescription(), position.getDescription())
+                    && Objects.equals(getStartDate(), position.getStartDate())
+                    && Objects.equals(getEndDate(), position.getEndDate());
         }
 
         @Override
@@ -140,7 +142,9 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Organization)) return false;
         Organization that = (Organization) o;
-        return Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getLink(), that.getLink()) && Objects.equals(getPositions(), that.getPositions());
+        return Objects.equals(getTitle(), that.getTitle())
+                && Objects.equals(getLink(), that.getLink())
+                && Objects.equals(getPositions(), that.getPositions());
     }
 
     @Override

@@ -18,7 +18,15 @@ public class Link implements Serializable {
     public Link(String name, String url) {
         Objects.requireNonNull(name, "name must not be null");
         this.name = name;
-        this.url = url;
+        this.url = url == null? "": url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url == null? "": url;
     }
 
     @Override
@@ -36,6 +44,6 @@ public class Link implements Serializable {
 
     @Override
     public String toString() {
-        return url == null ? "--" : url;
+        return getUrl();
     }
 }

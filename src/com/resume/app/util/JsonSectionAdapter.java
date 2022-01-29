@@ -10,12 +10,13 @@ public class JsonSectionAdapter<T> implements JsonSerializer<T>, JsonDeserialize
     private static final String INSTANCE = "INSTANCE";
 
     @Override
-    public T deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public T deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+            throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         JsonPrimitive jsonPrimitive = (JsonPrimitive) jsonObject.get(CLASSNAME);
         String className = jsonPrimitive.getAsString();
 
-        try{
+        try {
             Class clazz = Class.forName(className);
             return jsonDeserializationContext.deserialize(jsonObject.get(INSTANCE), clazz);
         } catch (ClassNotFoundException e) {

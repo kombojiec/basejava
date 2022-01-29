@@ -13,8 +13,8 @@ public class XmlParser {
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
 
-    public XmlParser (Class...classesToBeBound) {
-        try{
+    public XmlParser(Class... classesToBeBound) {
+        try {
             JAXBContext context = JAXBContext.newInstance(classesToBeBound);
             marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -26,15 +26,15 @@ public class XmlParser {
     }
 
     public <T> T unmarshall(Reader reader) {
-        try{
-            return (T)unmarshaller.unmarshal(reader);
+        try {
+            return (T) unmarshaller.unmarshal(reader);
         } catch (JAXBException e) {
             throw new IllegalStateException(e);
         }
     }
 
     public void marshall(Object object, Writer writer) {
-        try{
+        try {
             marshaller.marshal(object, writer);
         } catch (JAXBException e) {
             throw new IllegalStateException(e);
