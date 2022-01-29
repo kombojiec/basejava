@@ -26,9 +26,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected Stream<Resume> getAllResumeStream() {
-        File[] files = getStorageFiles();
-        return Arrays.stream(files)
-                .map(this::getResume);
+        return Arrays.stream(getStorageFiles()).map(this::getResume);
     }
 
     @Override
@@ -78,16 +76,12 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int getSize() {
-        File[] files = getStorageFiles();
-        return files.length;
+        return (int)Arrays.stream(getStorageFiles()).count();
     }
 
     @Override
     public void clear() {
-        File[] files = getStorageFiles();
-        for (File file : files) {
-            file.delete();
-        }
+        Arrays.stream(getStorageFiles()).forEach(File::delete);
     }
 
     private File[] getStorageFiles() {
