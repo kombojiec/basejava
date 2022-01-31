@@ -213,12 +213,18 @@ public class ResumeTestData {
                 DateUtil.of(1993, Month.SEPTEMBER),
                 DateUtil.of(1996, Month.JULY));
         positions.add(position);
-        position = new Organization.Position("Инженер (программист Fortran, C)",
+
+        //Строка с нулём вместо описания для теста
+//        position = new Organization.Position("Инженер (программист Fortran, C)",
+        position = new Organization.Position(null,
                 DateUtil.of(1987, Month.SEPTEMBER),
                 DateUtil.of(1993, Month.JULY));
         positions.add(position);
+        //Строка с нулём вместо URL для теста
+//        organization = new Organization("Санкт-Петербургский национальный исследовательский университет " +
+//                "информационных технологий, механики и оптики", "https://itmo.ru/ru/", positions);
         organization = new Organization("Санкт-Петербургский национальный исследовательский университет " +
-                "информационных технологий, механики и оптики", "https://itmo.ru/ru/", positions);
+                "информационных технологий, механики и оптики", null, positions);
         organizationList.add(organization);
 
         positions = new ArrayList<>();

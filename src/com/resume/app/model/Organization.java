@@ -83,7 +83,7 @@ public class Organization implements Serializable {
         }
 
         public Position(String description, LocalDate startDate, LocalDate endDate) {
-            this.description = description;
+            this.description = description == null? "": description;
             this.startDate = startDate;
             this.endDate = endDate;
         }
