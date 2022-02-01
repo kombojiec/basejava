@@ -17,14 +17,11 @@ public class DataStreamSerializer implements ObjectSerializer {
         try (DataOutputStream dos = new DataOutputStream(outputStream)) {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
-            dos.writeInt(resume.getContacts().size());
-            for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
+            writeWithException(resume.getContacts().entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
-            int sectionsSize = resume.getSections().size();
-            dos.writeInt(sectionsSize);
-            for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
+            });
+            writeWithException(resume.getSections().entrySet(), dos, entry -> {
                 SectionType sectiontype = entry.getKey();
                 AbstractSection section = entry.getValue();
                 dos.writeUTF(sectiontype.name());
@@ -39,12 +36,13 @@ public class DataStreamSerializer implements ObjectSerializer {
                             dos.writeUTF(link.getUrl());
                             writeWithException(organization.getPositions(), dos, position -> {
                                 dos.writeUTF(position.getDescription());
-                                writeDates(position.getStartDate(), position.getEndDate(), dos);
+                                writeDate(position.getStartDate(), dos);
+                                writeDate(position.getEndDate(), dos);
                             });
                         });
                     }
                 }
-            }
+            });
         }
     }
 
@@ -57,20 +55,17 @@ public class DataStreamSerializer implements ObjectSerializer {
             readElements(dis, () -> {
                 resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             });
-            int sectionsSize = dis.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            readElements(dis, () -> {
                 SectionType section = SectionType.valueOf(dis.readUTF());
                 resume.setSection(section, readSection(dis, section));
-            }
+            });
             return resume;
         }
     }
 
-    private void writeDates(LocalDate startDate, LocalDate endDate, DataOutputStream stream) throws IOException {
-        stream.writeInt(startDate.getYear());
-        stream.writeUTF(startDate.getMonth().name());
-        stream.writeInt(endDate.getYear());
-        stream.writeUTF(endDate.getMonth().name());
+    private void writeDate(LocalDate date, DataOutputStream stream) throws IOException {
+        stream.writeInt(date.getYear());
+        stream.writeUTF(date.getMonth().name());
     }
 
     private LocalDate readDate(DataInputStream stream) throws IOException {
