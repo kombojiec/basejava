@@ -13,18 +13,18 @@ public class DeadLock {
 
     public static void initThread(Object lockOne, Object lockTwo) {
         new Thread(() -> {
-            Thread thread = Thread.currentThread();
-            System.out.println("Try to catch lockOne by " + thread.getName());
+            String threadName = Thread.currentThread().getName();
+            System.out.printf("Try to catch %s by %s\n", lockOne.toString(), threadName);
             synchronized (lockOne) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("lockOne caught by " + thread.getName());
-                System.out.println("Try to catch lockTwo by " + thread.getName());
+                System.out.printf("%s caught by %s\n", lockOne.toString(), threadName);
+                System.out.printf("Try to catch %s by %s\n", lockTwo.toString(), threadName);
                 synchronized ((lockTwo)) {
-                    System.out.println("lockOne and lockTwo caught by " + thread.getName());
+                    System.out.printf("%s and %s caught by %s\n", lockOne.toString(), lockTwo.toString(), threadName);
                 }
             }
         }).start();
