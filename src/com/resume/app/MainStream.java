@@ -22,7 +22,7 @@ public class MainStream {
         int sum = integers.stream().reduce(Integer::sum).get();
 
         return integers.stream()
-                .filter(el -> ((sum % 2 == 0) == (el % 2 != 0)))
+                .filter(el -> sum % 2 != el % 2 )
                 .collect(Collectors.toList());
     }
 
