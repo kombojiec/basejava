@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage{
-//    public final ConnectionFactory connectionFactory;
     private static final String DELETE_RESUMES = """
         DELETE FROM resumes;
     """;

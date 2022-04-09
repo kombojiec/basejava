@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public abstract class AbstractStorageTest {
     protected final static File STORAGE_DIR = new File(Config.getInstance().getStorageDir());
     protected final Storage storage;
-    private final Resume resume_1 = ResumeTestData.createResume("uuid#1", "uuid#1");
-    private final Resume resume_2 = ResumeTestData.createResume("uuid#2", "uuid#2");
-    private final Resume resume_3 = ResumeTestData.createResume("uuid#3", "uuid#3");
-    protected final Resume notExistResume = ResumeTestData.createResume("notExist", "notExist");
+    private final Resume resume_1 = ResumeTestData.createResume("uuid#1", "fullName#1");
+    private final Resume resume_2 = ResumeTestData.createResume("uuid#2", "fullName#2");
+    private final Resume resume_3 = ResumeTestData.createResume("uuid#3", "fullName#3");
+    protected final Resume notExistResume = ResumeTestData.createResume("notExistUuid", "notExistFullName");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;

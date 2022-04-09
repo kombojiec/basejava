@@ -28,5 +28,4 @@ public class SqlHelper {
             throw new StorageException(ex);
         }
     }
-
 }
