@@ -1,5 +1,6 @@
 package com.resume.app.storage;
 
+import com.resume.app.Config;
 import com.resume.app.ResumeTestData;
 import com.resume.app.exception.ExistStorageException;
 import com.resume.app.exception.NotExistStorageException;
@@ -17,7 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-    protected final static File STORAGE_DIR = new File("storage");
+    protected final static File STORAGE_DIR = new File(Config.getInstance().getStorageDir());
     protected final Storage storage;
     private final Resume resume_1 = ResumeTestData.createResume("uuid#1", "uuid#1");
     private final Resume resume_2 = ResumeTestData.createResume("uuid#2", "uuid#2");
