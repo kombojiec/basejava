@@ -1,5 +1,8 @@
 package com.resume.app;
 
+import com.resume.app.storage.SqlStorage;
+import com.resume.app.storage.Storage;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -7,6 +10,7 @@ import java.util.Properties;
 public class Config {
     private static final Config INSTANCE = new Config();
     private static final String PROPS_PATH = "application.properties";
+    private final Storage sqlStorage;
     private final String storageDir;
     private final String URL;
     private final String username;
@@ -23,6 +27,7 @@ public class Config {
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + PROPS_PATH);
         }
+        this.sqlStorage = new SqlStorage(getURL(), getUsername(), getPassword());
     }
 
     public static Config getInstance() {
@@ -43,5 +48,9 @@ public class Config {
 
     public String getPassword() {
         return password;
+    }
+
+    public Storage getSqlStorage() {
+        return sqlStorage;
     }
 }
