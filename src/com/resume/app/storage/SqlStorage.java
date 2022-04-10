@@ -6,10 +6,10 @@ import com.resume.app.model.Resume;
 import com.resume.app.sql.SqlHelper;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage{
@@ -119,12 +119,16 @@ public class SqlStorage implements Storage{
     public List<Resume> getAllSorted() {
         return sqlHelper.execute(GET_ALL_RESUMES, statement -> {
             ResultSet resultSet = statement.executeQuery();
-            List<Resume> resumes = new ArrayList<>();
+            Storage storage = new SortedArrayStorage();
             while (resultSet.next()) {
-                resumes.add(new Resume(resultSet.getString("uuid"),
+                storage.save(new Resume(resultSet.getString("uuid"),
                         resultSet.getString("full_name")));
             }
-            return resumes;
+            try {
+                return storage.getAllSorted();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }
