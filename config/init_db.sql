@@ -1,4 +1,4 @@
-CREATE TABLE RESUMES(
+CREATE TABLE resumes(
     uuid VARCHAR (36) PRIMARY KEY,
     full_name TEXT
 );
@@ -11,3 +11,9 @@ CREATE TABLE contacts(
 );
 
 CREATE  UNIQUE INDEX contacts_uuid_type_idx ON contacts(resume_uuid, type);
+
+ALTER TABLE resumes
+ALTER COLUMN uuid
+SET NOT NULL,
+ALTER COLUMN full_name
+SET NOT NULL;
