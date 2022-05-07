@@ -9,7 +9,11 @@ public class Main {
         File root =  new File("src/");
         printFilesHierarchy(root, 0);
 
+        System.out.println("впвапвап");
+
     }
+
+
 
     public static void printFilesHierarchy(File src, int depth) {
         if(null == src) {
